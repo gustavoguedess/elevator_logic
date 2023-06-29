@@ -71,7 +71,7 @@ void inicializar(uint8_t elevador_cod){
     elevador->fila_subindo[i]=0;
     elevador->fila_descendo[i]=0;
   }  
-  atualizarPosicao(elevador->codigo);
+  //atualizarPosicao(elevador->codigo);
 }
 uint8_t fecharPorta(uint8_t elevador_cod){
   elevador_t* elevador = getElevador(elevador_cod);
@@ -227,8 +227,8 @@ uint8_t precisaDescer(uint8_t elevador_cod){
   if (elevador==0) return 0;
   
   for(int8_t i = elevador->andar-1; i>=0; i--){
-    printf("%d %d\n", elevador->andar, elevador->andar-1);
-    printf("i: %d\n", i);
+    //printf("%d %d\n", elevador->andar, elevador->andar-1);
+    //printf("i: %d\n", i);
     if (elevador->fila_subindo[i]) return 1;
     if (elevador->fila_descendo[i]) return 1;
   }

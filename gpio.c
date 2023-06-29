@@ -44,7 +44,7 @@ void UART_Interruption_Handler(void)
   
   if(_char == '\n'){
     _buffer[_buffer_i]='\0';
-    printf("%s\n", _buffer);
+    //printf("%s\n", _buffer);
     
     decodificaComando(_buffer);
     _buffer_i = 0;

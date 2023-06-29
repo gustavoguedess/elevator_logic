@@ -9,9 +9,10 @@ int main()
   
   esperarIniciar();
   
-  sleep(500);
+  sleep(1000);
   
   inicializar(ELEVADOR_ESQUERDO);
+  
   
   while(1)
   {
@@ -59,7 +60,6 @@ int main()
       descer(elevador);
       alterarDirecao(elevador, ELEVADOR_DESCENDO);
     }
-    
   }  
   
   return 0;
