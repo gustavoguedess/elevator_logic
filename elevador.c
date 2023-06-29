@@ -70,8 +70,7 @@ void inicializar(uint8_t elevador_cod){
   for(uint8_t i=0; i<QT_ANDARES;i++){
     elevador->fila_subindo[i]=0;
     elevador->fila_descendo[i]=0;
-  }  
-  //atualizarPosicao(elevador->codigo);
+  }
 }
 uint8_t fecharPorta(uint8_t elevador_cod){
   elevador_t* elevador = getElevador(elevador_cod);
@@ -306,7 +305,6 @@ void marcarAndarInterno(uint8_t elevador_cod, uint8_t andar){
   elevador_t* elevador = getElevador(elevador_cod);
   if(elevador == 0) return;
   
-  //printf("MAI: %d\n", andar);
   if( andar > elevador->andar){
     elevador->fila_subindo[andar]=1;
   }
@@ -354,6 +352,8 @@ void decodificaComando(uint8_t *comando){
   
   uint8_t elevador_cod = comando[0];
   uint8_t operacao = comando[1];
+  
+  if(operacao!='A' && operacao!='F' && operacao!='I' && operacao!='E' && (operacao<'0' || operacao>'9') ) return;
   
   elevador_t* elevador = getElevador(elevador_cod);
   if (elevador == 0) return;

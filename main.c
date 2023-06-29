@@ -18,7 +18,19 @@ int main()
   {
     uint8_t elevador = ELEVADOR_ESQUERDO;
     
-    if ( precisaParar(elevador) && estado(elevador)!=ELEVADOR_PARADO ){
+    // EMERGENCIA
+    if( precisaParar(elevador) && estado(elevador)==ELEVADOR_PARADO && porta(elevador) == PORTA_FECHADA ) {
+      printf("EMERGENCIA. ELEVADOR PARADO\n");
+      ajustePosicao(elevador);
+      uint8_t efetuado = abrirPorta(elevador);
+      if(!efetuado) continue;
+      
+      uint8_t andar = getAndar(elevador);
+      desligarBotao(elevador, andar);
+      desmarcarFila(elevador, andar);
+    }
+    // Se precisa parar no andar atual
+    else if ( precisaParar(elevador) && estado(elevador)!=ELEVADOR_PARADO ){
       parar(elevador);
       printf("PARAR\n");
       
@@ -35,7 +47,7 @@ int main()
       desmarcarFila(elevador, andar);
       
     }
-    // Mandar Subir quando estiver parado, ou quando estiver parado temporariamente 
+    // Mandar Subir quando tiver pedido acima 
     else if( precisaSubir(elevador) && ( direcao(elevador) == ELEVADOR_PARADO 
                                           || ( direcao(elevador) == ELEVADOR_SUBINDO && porta(elevador) == PORTA_ABERTA ) ) ){
       printf("SUBIR\n");
@@ -45,6 +57,7 @@ int main()
       subir(elevador);
       alterarDirecao(elevador, ELEVADOR_SUBINDO);
     }
+    // Mandar descer quando tiver pedido abaixo
     else if( precisaDescer(elevador) && (direcao(elevador) == ELEVADOR_PARADO 
                                           || ( direcao(elevador)==ELEVADOR_DESCENDO && porta(elevador) == PORTA_ABERTA ) ) ){
       printf("DESCER\n");
