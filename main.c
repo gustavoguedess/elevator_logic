@@ -18,13 +18,7 @@ int main()
   {
     uint8_t elevador = ELEVADOR_ESQUERDO;
     
-    // PARADA DE EMERGENCIA
-    if ( getAndar(elevador)==0 && direcao(elevador)==ELEVADOR_DESCENDO 
-        || getAndar(elevador)==15 && direcao(elevador)==ELEVADOR_SUBINDO ){
-      parar(elevador);
-      printf("PARADA EMERGENCIA\n");
-    }
-    else if ( precisaParar(elevador) && estado(elevador)!=ELEVADOR_PARADO ){
+    if ( precisaParar(elevador) && estado(elevador)!=ELEVADOR_PARADO ){
       parar(elevador);
       printf("PARAR\n");
       

@@ -4,9 +4,9 @@
 #include <string.h>
 #include <stdio.h>
 
-
-int limite_inferior[16] = {0,   4860, 9852,14867,19858,24851,29865,34857,39871,44863,49855,54869,59861,64853,69867,74558};
-int limite_superior[16] = {300, 5147,10139,15130,20140,25136,30129,35143,40135,45149,50141,55133,60147,65139,70131,74658};
+//               andar  =    0    1    2     3     4     5     6     7     8     9    10     11   12     13    14    15 
+int limite_inferior[16] = {  0, 4860, 9852,14867,19858,24851,29865,34857,39871,44863,49855,54869,59861,64853,69867,74858};
+int limite_superior[16] = {200, 5147,10130,15130,20140,25130,30120,35140,40130,45140,50130,55130,60140,65130,70120,74940};
 
 // **** ELEVADOR ESQUERDO ****
 typedef struct elevador{
@@ -116,21 +116,27 @@ void ajustePosicao(uint8_t elevador_cod){
   if(elevador == 0) return;
   
   atualizarPosicao(elevador_cod);
+  if(elevador->ultima_posicao == -1) return;
   while(elevador->ultima_posicao < limite_inferior[elevador->andar]){
     int32_t diff = elevador->ultima_posicao - limite_inferior[elevador->andar]; //Sempre negativo
     int tempo = -diff/2;
+    
+    if(elevador->ultima_posicao == -1) return;
     subir(elevador_cod);
     sleep(tempo);
     parar(elevador_cod);
+    
     atualizarPosicao(elevador_cod);
   }
   while(elevador->ultima_posicao > limite_superior[elevador->andar]){
     int32_t diff = elevador->ultima_posicao - limite_superior[elevador->andar]; //Sempre positivo
     int tempo = diff/2;
-    
+
+    if(elevador->ultima_posicao == -1) return;
     descer(elevador_cod);
     sleep(tempo);
     parar(elevador_cod);
+    
     atualizarPosicao(elevador_cod);
   }
 }
@@ -175,7 +181,6 @@ void atualizarPosicao(uint8_t elevador_cod){
   if(elevador == 0) return;
   
   elevador->ultima_posicao = consultar(elevador_cod);
-  printf("%d\n", elevador->ultima_posicao);
 }
 
 void alterarEstado(uint8_t elevador_cod, int8_t estado) {
@@ -227,8 +232,6 @@ uint8_t precisaDescer(uint8_t elevador_cod){
   if (elevador==0) return 0;
   
   for(int8_t i = elevador->andar-1; i>=0; i--){
-    //printf("%d %d\n", elevador->andar, elevador->andar-1);
-    //printf("i: %d\n", i);
     if (elevador->fila_subindo[i]) return 1;
     if (elevador->fila_descendo[i]) return 1;
   }
